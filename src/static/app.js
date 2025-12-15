@@ -519,17 +519,24 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
+    // Helper function to escape HTML attributes
+    const escapeHtml = (text) => {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    };
+
     // Create social sharing buttons
     const shareButtons = `
       <div class="social-share-container">
         <span class="share-label">Share:</span>
-        <button class="share-button facebook-share" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Facebook">
+        <button class="share-button facebook-share" title="Share on Facebook">
           <span class="share-icon">📘</span>
         </button>
-        <button class="share-button twitter-share" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share on Twitter">
+        <button class="share-button twitter-share" title="Share on Twitter">
           <span class="share-icon">🐦</span>
         </button>
-        <button class="share-button email-share" data-activity="${name}" data-description="${details.description}" data-schedule="${formattedSchedule}" title="Share via Email">
+        <button class="share-button email-share" title="Share via Email">
           <span class="share-icon">✉️</span>
         </button>
       </div>
