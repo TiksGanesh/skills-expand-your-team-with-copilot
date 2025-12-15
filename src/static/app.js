@@ -923,6 +923,52 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeRangeFilter,
   };
 
+  // Theme toggle functionality
+  const themeToggle = document.getElementById("theme-toggle");
+  
+  if (themeToggle) {
+    const themeIcon = themeToggle.querySelector(".theme-icon");
+    
+    if (themeIcon) {
+      // Update theme UI elements
+      function updateThemeUI(isDark) {
+        themeIcon.textContent = isDark ? "☀️" : "🌙";
+        themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+      }
+
+      // Check for saved theme preference or default to light mode
+      function initializeTheme() {
+        const savedTheme = localStorage.getItem("theme");
+        const isDark = savedTheme === "dark";
+        
+        // Sync with early initialization in HTML head
+        if (isDark) {
+          document.documentElement.classList.add("dark-theme");
+        } else {
+          document.documentElement.classList.remove("dark-theme");
+        }
+        
+        updateThemeUI(isDark);
+      }
+
+      // Toggle theme
+      function toggleTheme() {
+        document.documentElement.classList.toggle("dark-theme");
+        const isDark = document.documentElement.classList.contains("dark-theme");
+        
+        // Update UI and save preference
+        updateThemeUI(isDark);
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      }
+
+      // Event listener for theme toggle
+      themeToggle.addEventListener("click", toggleTheme);
+
+      // Initialize theme on page load
+      initializeTheme();
+    }
+  }
+
   // Initialize app
   checkAuthentication();
   initializeFilters();
