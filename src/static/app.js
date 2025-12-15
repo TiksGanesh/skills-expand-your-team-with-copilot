@@ -930,30 +930,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeIcon = themeToggle.querySelector(".theme-icon");
     
     if (themeIcon) {
+      // Update theme UI elements
+      function updateThemeUI(isDark) {
+        themeIcon.textContent = isDark ? "☀️" : "🌙";
+        themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+      }
+
       // Check for saved theme preference or default to light mode
       function initializeTheme() {
         const savedTheme = localStorage.getItem("theme");
-        if (savedTheme === "dark") {
-          document.body.classList.add("dark-theme");
-          themeIcon.textContent = "☀️";
-          themeToggle.setAttribute("aria-label", "Switch to light mode");
+        const isDark = savedTheme === "dark";
+        
+        // Sync with early initialization in HTML head
+        if (isDark) {
+          document.documentElement.classList.add("dark-theme");
         } else {
-          document.body.classList.remove("dark-theme");
-          themeIcon.textContent = "🌙";
-          themeToggle.setAttribute("aria-label", "Switch to dark mode");
+          document.documentElement.classList.remove("dark-theme");
         }
+        
+        updateThemeUI(isDark);
       }
 
       // Toggle theme
       function toggleTheme() {
-        document.body.classList.toggle("dark-theme");
-        const isDark = document.body.classList.contains("dark-theme");
+        document.documentElement.classList.toggle("dark-theme");
+        const isDark = document.documentElement.classList.contains("dark-theme");
         
-        // Update icon and aria-label
-        themeIcon.textContent = isDark ? "☀️" : "🌙";
-        themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
-        
-        // Save preference
+        // Update UI and save preference
+        updateThemeUI(isDark);
         localStorage.setItem("theme", isDark ? "dark" : "light");
       }
 
